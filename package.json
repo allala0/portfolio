@@ -7,9 +7,11 @@
   "main": "./build/index.min.js",
   "scripts": {
     "start": "npm run dev",
-    "dev": "webpack-dev-server --config webpack.dev.js",
+    "dev": "webpack-dev-server --config webpack.web.dev.js",
+    "dev-module": "npm run build-module && npm run explorer",
     "explorer": "servez -p 8080 --ssl --hidden --no-index",
-    "build": "cdir build && webpack build --config webpack.prod.js",
+    "build": "cdir build && webpack build --config webpack.web.prod.js",
+    "build-module": "cdir build && webpack build --config webpack.module.prod.js --env min && webpack build --config webpack.module.prod.js --env js && webpack build --config webpack.module.prod.js --env module && webpack build --config webpack.module.prod.js --env cjs",
     "lint": "eslint src --ext js",
     "lint-fix": "eslint src --ext js --fix"
   },
@@ -42,6 +44,6 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.3",
     "three": "^0.146.0",
-    "three-engine": "^1.0.2"
+    "three-engine": "^1.0.3"
   }
 }
