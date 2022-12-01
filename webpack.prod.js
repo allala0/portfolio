@@ -1,8 +1,6 @@
 const {merge} = require('webpack-merge');
-const common = require('./webpack.module.common');
-
-const type = process.argv.indexOf('js') > -1 ? 'js' : process.argv.indexOf('cjs') > -1 ? 'cjs' : process.argv.indexOf('module') > -1 ? 'module' : 'min'; // min, js, cjs, module
-const extension = type === 'cjs' ? '.cjs' : type === 'min' ? '.min.js' : type === 'module' ? '.module.js' : '.js';
+const common = require('./webpack.common');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = merge(common, {
     mode: 'production',
@@ -11,7 +9,9 @@ module.exports = merge(common, {
             {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
-                    'style-loader',
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                    },
                     'css-loader',
                     {
                         loader: "postcss-loader",
@@ -31,7 +31,12 @@ module.exports = merge(common, {
             }
         ]
     },
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: '[name].css'
+        })
+    ],
     output: {
-        filename: '[name]' + extension,
+        filename: '[name].js'
     }
 });

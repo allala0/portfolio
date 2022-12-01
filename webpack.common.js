@@ -1,4 +1,8 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const HTML_TEMPLATE_PATH = 'src/template.html';
+const HTML_OUTPUT_FILE = 'index.html';
 
 const ENTRY_DIR = 'src';
 const ENTRY_FILE = 'index';
@@ -33,5 +37,18 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, BUILD_DIRECTORY)
-    }
+    },
+    devServer: {
+        magicHtml: true,
+        historyApiFallback: true,
+        open: true,
+        hot: true
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            filename: HTML_OUTPUT_FILE,
+            template: HTML_TEMPLATE_PATH,
+            inject: true
+        })
+    ]
 }
